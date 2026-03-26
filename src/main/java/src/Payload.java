@@ -49,12 +49,12 @@ public class Payload {
     }
     
     /// returns "| <name> | <value> | <weight> | <ratio> |"
-    /// spacing "| %8s | %3d | %3d | %.2f |"
+    /// spacing "| %8s | %3d | %3d | %2.2f |"
     /// no new line
     @Override 
     public String toString()
     {
-        return String.format("| %8s | %3d | %3d | %.2f |", name, value, weight, ratio);
+        return String.format("| %8s | %3d | %3d | %2.2f |", name, value, weight, ratio);
     }
     
     
