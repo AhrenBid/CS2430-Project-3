@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class CargoBay 
 {
     
-    int maxWeight;
-    int currValue;
-    int currWeight;
+    private int maxWeight;
+    private int currValue;
+    private int currWeight;
     
-    ArrayList<Payload> cargoManifest;
+    private ArrayList<Payload> cargoManifest;
     
     /// constructor
     /// takes the max weight allowed in the cargo bay

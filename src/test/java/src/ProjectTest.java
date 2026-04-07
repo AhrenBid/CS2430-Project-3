@@ -4,12 +4,15 @@
  */
 package src;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -19,9 +22,30 @@ public class ProjectTest {
     
     public ProjectTest(){}
     
+    Payload cloudPatterns          = new Payload("Cloud Patterns",          36, 5);
+    Payload solarFlares            = new Payload("Solar Flares",           264, 9);
+    Payload solarPower             = new Payload("Solar Power",            188, 6);
+    Payload binaryStars            = new Payload("Binary Stars",           203, 8);
+    Payload relativity             = new Payload("Relativity",             104, 8);
+    Payload seedViability          = new Payload("Seed Viability",           7, 4);
+    Payload sunSpots               = new Payload("Sun Spots",               90, 2);
+    Payload miceTumors             = new Payload("Mice Tumors",             65, 8);
+    Payload microgravityPlantGrowth= new Payload("MicrogravityPlantGrowth", 75, 5);
+    Payload microMeteorites        = new Payload("Micrometeorites",        170, 9);
+    Payload cosmicRays             = new Payload("Cosmic Rays",             80, 7);
+    Payload yeastFermentation      = new Payload("Yeast Fermentation",      27, 7);
+    
+    ArrayList<Payload> catalogue = new ArrayList<>(List.of(cloudPatterns, solarFlares,
+            solarPower, binaryStars, relativity, seedViability, sunSpots, miceTumors,
+            microgravityPlantGrowth, microMeteorites, cosmicRays, yeastFermentation));
+    
+    LoadingProcedure load = new LoadingProcedure(catalogue);
     
     @BeforeAll
-    public static void setUpClass() {
+    public static void setUpClass() 
+    {
+        
+        
     }
     
     @AfterAll
@@ -41,4 +65,127 @@ public class ProjectTest {
     //
     // @Test
     // public void hello() {}
+    
+    @Test
+    public void loadHighestRating()
+    {
+        
+        /*
+        Payload cloudPatterns          = new Payload("Cloud Patterns",          36, 5);
+        Payload solarFlares            = new Payload("Solar Flares",           264, 9)^;
+        Payload solarPower             = new Payload("Solar Power",            188, 6);
+        Payload binaryStars            = new Payload("Binary Stars",           203, 8);
+        Payload relativity             = new Payload("Relativity",             104, 8)^;
+        Payload seedViability          = new Payload("Seed Viability",           7, 4);
+        Payload sunSpots               = new Payload("Sun Spots",               90, 2);
+        Payload miceTumors             = new Payload("Mice Tumors",             65, 8)^;
+        Payload microgravityPlantGrowth= new Payload("MicrogravityPlantGrowth", 75, 5);
+        Payload microMeteorites        = new Payload("Micrometeorites",        170, 9^);
+        Payload cosmicRays             = new Payload("Cosmic Rays",             80, 7);
+        Payload yeastFermentation      = new Payload("Yeast Fermentation",      27, 7);
+        
+        "^" means should have been added to the cargobay
+        */
+        
+        CargoBay loadHighestRating = load.loadHighestRating();
+        
+        //ArrayList<Payload> expected = new ArrayList<>(List.of())
+        
+        //assertEquals, 
+        
+    }
+    
+    @Test
+    public void loadLightest()
+    {
+       /*
+        1  Seed Viability              7    4
+        2  Yeast Fermentation         27    4
+        3  Cloud Patterns             36    5
+        4  Mice Tumors                65    8
+        5  Cosmic Rays                80    7
+        6  Relativity                104    8
+        7  Microgravity Plant Growth  75    5
+        8  Micrometeorites           170    9
+        */
+        
+        CargoBay loadLightest = load.loadLightest();
+        
+        ArrayList<Payload> manifest = loadLightest.getCargoManifest();
+        
+        assertTrue(manifest.contains(cloudPatterns));
+        assertTrue(manifest.contains(relativity));
+        assertTrue(manifest.contains(seedViability));
+        assertTrue(manifest.contains(sunSpots));
+        assertTrue(manifest.contains(miceTumors));
+        assertTrue(manifest.contains(microgravityPlantGrowth));
+        assertTrue(manifest.contains(microMeteorites));
+        assertTrue(manifest.contains(cosmicRays));
+        assertTrue(manifest.contains(yeastFermentation));
+        
+        assertTrue(loadLightest.getCargoWeight() <=700);
+        
+    }
+    
+    @Test
+    public void loadBestRatio()
+    {
+        /*
+        expected in the cargobay:
+        
+        1  seedViability              7    4
+        2  yeastFermentation         27    4
+        3  cloudPatterns             36    5
+        4  miceTumors                65    8
+        5  cosmicRays                80    7
+        6  relativity               104    8
+        7  microgravityPlantGrowth   75    5
+        8  microMeteorites          170    9
+
+        */
+        
+        CargoBay loadRatio = load.loadBestRatio();
+        
+        ArrayList<Payload> manifest = loadRatio.getCargoManifest();
+        
+        assertTrue(manifest.contains(seedViability));
+        assertTrue(manifest.contains(yeastFermentation));
+        assertTrue(manifest.contains(cloudPatterns));
+        assertTrue(manifest.contains(miceTumors));
+        assertTrue(manifest.contains(cosmicRays));
+        assertTrue(manifest.contains(relativity));
+        assertTrue(manifest.contains(microgravityPlantGrowth));
+        assertTrue(manifest.contains(microMeteorites));
+        
+    }
+    
+    @Test
+    public void loadBruteForce()
+    {
+        /*
+        
+        expected in the cargo manifest:
+        
+        solarFlares
+        binaryStars
+        relativity
+        cosmicRays
+        cloudPatterns
+        yeastFermentation
+        seedViability
+
+        */
+        
+        CargoBay loadBruteForce = load.loadBruteForce();
+        
+        ArrayList<Payload> manifest = loadBruteForce.getCargoManifest();
+        
+        assertTrue(manifest.contains(solarFlares));
+        assertTrue(manifest.contains(binaryStars));
+        assertTrue(manifest.contains(relativity));
+        assertTrue(manifest.contains(cosmicRays));
+        assertTrue(manifest.contains(cloudPatterns));
+        assertTrue(manifest.contains(yeastFermentation));
+        assertTrue(manifest.contains(seedViability));
+    }
 }
