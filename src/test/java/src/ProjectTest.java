@@ -45,12 +45,20 @@ public class ProjectTest {
     {
         StringBuilder bld = new StringBuilder();
         
+        int totalValue = 0;
+        int totalWeight = 0;
+        
         bld.append(String.format("| %26s | %5s | %6s | %5s |\n", "Name", "Value", "Weight", "Ratio"));
         for (Payload current : manifest)
         {
             bld.append(current.toString());
+            totalValue += current.getValue();
+            totalWeight += current.getWeight();
+            
             bld.append("\n");
         }
+        
+        bld.append(String.format("| %26s | %2dpts | %4dkg | %5s |\n", "Totals", totalValue, totalWeight, ""));
         
         return bld.toString();
     }
