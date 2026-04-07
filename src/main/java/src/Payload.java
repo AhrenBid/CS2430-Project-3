@@ -54,7 +54,7 @@ public class Payload {
     @Override 
     public String toString()
     {
-        return String.format("| %8s | %3d | %3d | %2.2f |", name, value, weight, ratio);
+        return String.format("| %26s | %5d | %6d | %5.2f |", name, value, weight, ratio);
     }
     
     
