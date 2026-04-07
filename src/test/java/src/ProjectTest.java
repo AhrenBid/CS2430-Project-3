@@ -30,7 +30,7 @@ public class ProjectTest {
     Payload seedViability          = new Payload("Seed Viability",           7, 4);
     Payload sunSpots               = new Payload("Sun Spots",               90, 2);
     Payload miceTumors             = new Payload("Mice Tumors",             65, 8);
-    Payload microgravityPlantGrowth= new Payload("MicrogravityPlantGrowth", 75, 5);
+    Payload microgravityPlantGrowth= new Payload("Microgravity Plant Growth", 75, 5);
     Payload microMeteorites        = new Payload("Micrometeorites",        170, 9);
     Payload cosmicRays             = new Payload("Cosmic Rays",             80, 7);
     Payload yeastFermentation      = new Payload("Yeast Fermentation",      27, 7);
@@ -40,6 +40,20 @@ public class ProjectTest {
             microgravityPlantGrowth, microMeteorites, cosmicRays, yeastFermentation));
     
     LoadingProcedure load = new LoadingProcedure(catalogue);
+    
+    public String printManifest(ArrayList<Payload> manifest)
+    {
+        StringBuilder bld = new StringBuilder();
+        
+        bld.append(String.format("| %26s | %5s | %6s | %5s |\n", "Name", "Value", "Weight", "Ratio"));
+        for (Payload current : manifest)
+        {
+            bld.append(current.toString());
+            bld.append("\n");
+        }
+        
+        return bld.toString();
+    }
     
     @BeforeAll
     public static void setUpClass() 
@@ -71,28 +85,26 @@ public class ProjectTest {
     {
         
         /*
-        Payload cloudPatterns          = new Payload("Cloud Patterns",          36, 5);
-        Payload solarFlares            = new Payload("Solar Flares",           264, 9)^;
-        Payload solarPower             = new Payload("Solar Power",            188, 6);
-        Payload binaryStars            = new Payload("Binary Stars",           203, 8);
-        Payload relativity             = new Payload("Relativity",             104, 8)^;
-        Payload seedViability          = new Payload("Seed Viability",           7, 4);
-        Payload sunSpots               = new Payload("Sun Spots",               90, 2);
-        Payload miceTumors             = new Payload("Mice Tumors",             65, 8)^;
-        Payload microgravityPlantGrowth= new Payload("MicrogravityPlantGrowth", 75, 5);
-        Payload microMeteorites        = new Payload("Micrometeorites",        170, 9^);
-        Payload cosmicRays             = new Payload("Cosmic Rays",             80, 7);
-        Payload yeastFermentation      = new Payload("Yeast Fermentation",      27, 7);
+        cargobay expected to contain:
         
-        "^" means should have been added to the cargobay
+        1  solarFlares              264    9
+        2  microMeteorites          170    9
+        3  binaryStars              203    8
+        4  cloudPatterns             36    5
+        5  yeastFermentation         27    4
         */
         
         CargoBay loadHighestRating = load.loadHighestRating();
         
-        //ArrayList<Payload> expected = new ArrayList<>(List.of())
+        ArrayList<Payload> manifest = loadHighestRating.getCargoManifest();
         
-        //assertEquals, 
+        assertTrue(manifest.contains(solarFlares));
+        assertTrue(manifest.contains(microMeteorites));
+        assertTrue(manifest.contains(binaryStars));
+        assertTrue(manifest.contains(cloudPatterns));
+        assertTrue(manifest.contains(yeastFermentation));
         
+        assertTrue(loadHighestRating.getCargoWeight() <= 700);
     }
     
     @Test
@@ -124,6 +136,12 @@ public class ProjectTest {
         assertTrue(manifest.contains(yeastFermentation));
         
         assertTrue(loadLightest.getCargoWeight() <=700);
+        
+        System.out.println("Load Lightest\n");
+        System.out.println(printManifest(manifest));
+        
+        
+        
         
     }
     
@@ -157,6 +175,12 @@ public class ProjectTest {
         assertTrue(manifest.contains(microgravityPlantGrowth));
         assertTrue(manifest.contains(microMeteorites));
         
+        
+        assertTrue(loadRatio.getCargoWeight() <= 700);
+        
+        System.out.println("Load Best Ratio\n");
+        System.out.println(printManifest(manifest));
+        
     }
     
     @Test
@@ -187,5 +211,12 @@ public class ProjectTest {
         assertTrue(manifest.contains(cloudPatterns));
         assertTrue(manifest.contains(yeastFermentation));
         assertTrue(manifest.contains(seedViability));
+        
+        
+        assertTrue(loadBruteForce.getCargoWeight() <= 700);
+        
+        System.out.println("Load Brute Force\n");
+        System.out.println(printManifest(manifest));
+        
     }
 }
