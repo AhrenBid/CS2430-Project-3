@@ -20,10 +20,28 @@ public class Payload {
     /// @param name   //holds the name of the payload, only used in toString()
     /// @param weight //self explanatory
     /// @param value  //self explanatory
-    public Payload (String name, int weight, int value)
+    public Payload (String name, int weight, int value) throws IllegalArgumentException
     {
-        this.weight = weight;
-        this.value = value;
+        if (weight > 0)
+        {
+            this.weight = weight;
+        }
+        
+        else
+        {
+            throw new IllegalArgumentException("Illegal Weight");
+        }
+        
+        
+        if (value>=0)
+        {
+            this.value = value;
+        }
+        
+        else
+        {
+            throw new IllegalArgumentException("Illegal Value");
+        }
         this.name = name;
         
         ratio = (double) value / weight;

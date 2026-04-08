@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -231,8 +231,27 @@ public class ProjectTest {
         
         
         assertTrue(loadBruteForce.getCargoWeight() <= 700);
-        
-        
-        
     }
+    
+    @Test
+    public void testCargoBayMax()
+    {
+        CargoBay testMax = new CargoBay(1);
+        Payload tooBig = new Payload("tooBig", 10, 10);
+        
+        assertThrows(Exception.class, () -> {testMax.addPayload(tooBig);});
+    }
+    
+    @Test
+    public void testPayloadInstantiationIllegalWeight()
+    { 
+        assertThrows(IllegalArgumentException.class, () -> {new Payload("don't care", -1, 0);});
+    }
+    
+    @Test
+    public void testPayloadInstantiationIllegalValue()
+    { 
+        assertThrows(IllegalArgumentException.class, () -> {new Payload("don't care", 1, -1);});
+    }
+    
 }
