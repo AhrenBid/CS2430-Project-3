@@ -106,6 +106,10 @@ public class ProjectTest {
         
         ArrayList<Payload> manifest = loadHighestRating.getCargoManifest();
         
+        System.out.println("Load Highest Rating\n");
+        System.out.println(printManifest(manifest));
+        
+        
         assertTrue(manifest.contains(solarFlares));
         assertTrue(manifest.contains(microMeteorites));
         assertTrue(manifest.contains(binaryStars));
@@ -174,6 +178,10 @@ public class ProjectTest {
         
         ArrayList<Payload> manifest = loadRatio.getCargoManifest();
         
+        System.out.println("Load Best Ratio\n");
+        System.out.println(printManifest(manifest));
+        
+        
         assertTrue(manifest.contains(seedViability));
         assertTrue(manifest.contains(yeastFermentation));
         assertTrue(manifest.contains(cloudPatterns));
@@ -186,8 +194,6 @@ public class ProjectTest {
         
         assertTrue(loadRatio.getCargoWeight() <= 700);
         
-        System.out.println("Load Best Ratio\n");
-        System.out.println(printManifest(manifest));
         
     }
     
@@ -208,9 +214,12 @@ public class ProjectTest {
 
         */
         
-        CargoBay loadBruteForce = load.loadBruteForce();
+        CargoBay loadBruteForce = load.loadBruteForce().get(0);
         
         ArrayList<Payload> manifest = loadBruteForce.getCargoManifest();
+        
+        System.out.println("Load Brute Force\n");
+        System.out.println(printManifest(manifest));
         
         assertTrue(manifest.contains(solarFlares));
         assertTrue(manifest.contains(binaryStars));
@@ -223,8 +232,7 @@ public class ProjectTest {
         
         assertTrue(loadBruteForce.getCargoWeight() <= 700);
         
-        System.out.println("Load Brute Force\n");
-        System.out.println(printManifest(manifest));
+        
         
     }
 }

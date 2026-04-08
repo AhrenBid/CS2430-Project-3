@@ -19,6 +19,7 @@ public class CargoBay
     public CargoBay(int maxWeight)
     {
         this.maxWeight = maxWeight;
+        cargoManifest = new ArrayList<Payload>();
     }
     
     /// add a payload to the CargoBay
