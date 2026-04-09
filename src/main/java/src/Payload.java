@@ -8,7 +8,7 @@ package src;
 /// @author Ahren
 /// Payload class, holds all of the details of the payloads
 /// of the rocket.
-public class Payload {
+public class Payload implements Comparable<Payload>{
     
     int weight;
     int value;
@@ -73,6 +73,23 @@ public class Payload {
     public String toString()
     {
         return String.format("| %26s | %5d | %6d | %5.2f |", name, value, weight, ratio);
+    }
+    
+    @Override
+    public int compareTo(Payload other)
+    {
+        if (weight < other.getWeight())
+        {
+            return -1;
+        }
+        
+        else if (weight > other.getWeight())
+        {
+            return 1;
+        }
+        
+        else
+            return 0;
     }
     
     

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /// Cargo Bay of the rocket
 /// @author Ahren
-public class CargoBay 
+public class CargoBay implements Comparable<CargoBay>
 {
     
     private int maxWeight;
@@ -20,6 +20,17 @@ public class CargoBay
     {
         this.maxWeight = maxWeight;
         cargoManifest = new ArrayList<Payload>();
+        currValue = 0;
+        currWeight = 0;
+    }
+    
+    public CargoBay(CargoBay other)
+    {
+        
+        cargoManifest = new ArrayList<Payload>(other.getCargoManifest());
+        maxWeight = other.getMaxWeight();
+        currValue = other.getCargoValue();
+        currWeight = other.getCargoWeight();
     }
     
     /// add a payload to the CargoBay
@@ -31,7 +42,12 @@ public class CargoBay
         
         if (currWeight + newLoad.getWeight() <= maxWeight)
         {
-            currWeight += newLoad.getWeight();
+            if (cargoManifest.contains(newLoad))
+            {
+                throw new Exception("Payload Already In Manifest");
+            }
+            else
+                currWeight += newLoad.getWeight();
         }
         
         else
@@ -42,6 +58,13 @@ public class CargoBay
         currValue += newLoad.getValue();
         cargoManifest.add(newLoad);
         
+    }
+    
+    public void removePayload(Payload target)
+    {
+        cargoManifest.remove(target);
+        currWeight -= target.getWeight();
+        currValue  -= target.getValue();
     }
     
     /// get the current total value inside of the cargo bay
@@ -66,6 +89,26 @@ public class CargoBay
     public ArrayList<Payload> getCargoManifest()
     {
         return new ArrayList<Payload>(cargoManifest);
+    }
+    
+    @Override
+    public int compareTo(CargoBay other)
+    {
+        if (currWeight < other.getCargoWeight())
+        {
+            return -1;
+        }
+        
+        else if (currWeight > other.getCargoWeight())
+        {
+            return 1;
+        }
+        
+        else
+        {
+            return 0;
+        }
+        
     }
     
 }

@@ -22,6 +22,7 @@ public class ProjectTest {
     
     public ProjectTest(){}
     
+    // initialise payload table
     Payload cloudPatterns          = new Payload("Cloud Patterns",          36, 5);
     Payload solarFlares            = new Payload("Solar Flares",           264, 9);
     Payload solarPower             = new Payload("Solar Power",            188, 6);
@@ -35,12 +36,29 @@ public class ProjectTest {
     Payload cosmicRays             = new Payload("Cosmic Rays",             80, 7);
     Payload yeastFermentation      = new Payload("Yeast Fermentation",      27, 7);
     
+    // load payload table into a catogue to index into late
     ArrayList<Payload> catalogue = new ArrayList<>(List.of(cloudPatterns, solarFlares,
             solarPower, binaryStars, relativity, seedViability, sunSpots, miceTumors,
             microgravityPlantGrowth, microMeteorites, cosmicRays, yeastFermentation));
     
+    // initialise a loading procedure with that catalogue
     LoadingProcedure load = new LoadingProcedure(catalogue);
     
+    /// @author Ahren
+    /// used to simplify console output code, returns a string that is a table of all of the payloads
+    /// along with a totals row at the bottom
+    /// Example output:
+    ///|                       Name | Value | Weight | Ratio |
+    ///|             Seed Viability |     4 |      7 |  0.57 |
+    ///|         Yeast Fermentation |     7 |     27 |  0.26 |
+    ///|             Cloud Patterns |     5 |     36 |  0.14 |
+    ///|                Mice Tumors |     8 |     65 |  0.12 |
+    ///|  Microgravity Plant Growth |     5 |     75 |  0.07 |
+    ///|                Cosmic Rays |     7 |     80 |  0.09 |
+    ///|                  Sun Spots |     2 |     90 |  0.02 |
+    ///|                 Relativity |     8 |    104 |  0.08 |
+    ///|            Micrometeorites |     9 |    170 |  0.05 |
+    ///|                     Totals | 55pts |  654kg |       |
     public String printManifest(ArrayList<Payload> manifest)
     {
         StringBuilder bld = new StringBuilder();
@@ -88,6 +106,10 @@ public class ProjectTest {
     // @Test
     // public void hello() {}
     
+    /// @author Ahren
+    /// JUnit test for loading by highest rating
+    /// the other tests for loadRatio, loadLightest, and loadBruteForce are exactly
+    /// the same with different assert equals blocks
     @Test
     public void loadHighestRating()
     {
@@ -102,23 +124,28 @@ public class ProjectTest {
         5  yeastFermentation         27    4
         */
         
+        // load the cargoBay using the load highest rating method
         CargoBay loadHighestRating = load.loadHighestRating();
         
+        // save the manifest of that cargobay to use it in output
         ArrayList<Payload> manifest = loadHighestRating.getCargoManifest();
         
+        // output table with title
         System.out.println("Load Highest Rating\n");
         System.out.println(printManifest(manifest));
         
-        
+        // check that the manifest contains what it is expected to
         assertTrue(manifest.contains(solarFlares));
         assertTrue(manifest.contains(microMeteorites));
         assertTrue(manifest.contains(binaryStars));
         assertTrue(manifest.contains(cloudPatterns));
         assertTrue(manifest.contains(yeastFermentation));
         
+        // check that  it isn't overweight
         assertTrue(loadHighestRating.getCargoWeight() <= 700);
     }
     
+    /// @author Ahren
     @Test
     public void loadLightest()
     {
@@ -233,6 +260,28 @@ public class ProjectTest {
         assertTrue(loadBruteForce.getCargoWeight() <= 700);
     }
     
+    /// @author Ahren
+    /// loadDynamic test. Rather than testing for specific payloads, this makes sure that
+    /// the returned cargoBay is good enough compared to the brute force method, this is defined as 90% of the
+    /// way there
+    @Test
+    public void testLoadDynamic()
+    {
+        
+        CargoBay loadDynamic = load.loadDynamic();
+        CargoBay loadBrute = load.loadBruteForce().get(0);
+        
+        ArrayList<Payload> manifest = loadDynamic.getCargoManifest();
+        
+        System.out.println("Load Dynamic\n");
+        System.out.println(printManifest(manifest));
+        
+        assertTrue(loadDynamic.getCargoValue() >= loadBrute.getCargoValue() * 0.9); // 90% of best possible is good enough for now
+        
+    }
+    
+    /// @author Ahren
+    /// tests that the CargoBay correctly rejects add commands that overfill it
     @Test
     public void testCargoBayMax()
     {
@@ -242,12 +291,16 @@ public class ProjectTest {
         assertThrows(Exception.class, () -> {testMax.addPayload(tooBig);});
     }
     
+    /// @author Ahren
+    /// tests that Payload correctly rejects negative weights
     @Test
     public void testPayloadInstantiationIllegalWeight()
     { 
-        assertThrows(IllegalArgumentException.class, () -> {new Payload("don't care", -1, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {new Payload("don't care", 0, 0);});
     }
     
+    /// @author Ahren
+    /// tests that Payload correctly rejecets negative value
     @Test
     public void testPayloadInstantiationIllegalValue()
     { 

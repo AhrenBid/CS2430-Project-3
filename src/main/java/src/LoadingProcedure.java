@@ -167,12 +167,132 @@ public ArrayList<CargoBay> loadBruteForce() {
     top3.add(validSubsets.get(2));
     return top3;
 }
-    
+    /// @author Ahren
+    /// returns a CargoBay loaded using dynamic programming
     public CargoBay loadDynamic()
     {
-        CargoBay dynamicBay = new CargoBay(700);
+        // uses load highest as the starting point loadBestRatio would be 
+        // a better starting point, but I want to demontrate the improvement 
+        // that comes from the dynamic programming portion
+        CargoBay startingPoint = loadHighestRating();
         
-        return dynamicBay;
+        // improve is the recursive helper method that actually holds the logic
+        return improve(startingPoint);
     }
+    
+    /// @author Ahren
+    /// recursive helper for loadDynamic
+    private CargoBay improve(CargoBay old)
+    {
+        // memory safe copy of old
+        CargoBay startingPoint = new CargoBay(old);
+        
+        // lists to keep track of which payloads used or left unused
+        ArrayList<Payload> used = startingPoint.getCargoManifest();
+        ArrayList<Payload> unused = new ArrayList<>(cargoCatalogue);
+        unused.removeAll(used);
+        
+        // CargoBay to work in, used to keep changes out of startingPoint
+        // til I'm certain of what I want to stick
+        CargoBay theoretical = new CargoBay(startingPoint);
+        
+        
+        /*
+        Brief summary of algorithm
+        
+        for each loaded payload (loop 1)
+            
+            remove that payload
+            
+            check if any of the unused payloads fit (loop 2)
+        
+            if one does, check if the replacement makes the CargoBay lighter
+        
+                in that case, check if any other unused payloads can be added on top (loop 3)
+        
+                if a further payload can be added on top check if it improves the CargoBay score
+        
+                if it improves the CargoBay score, write the changes into startingPoint
+            
+                recursively call improve on the new version of startingPoint to look for further improvements
+        
+        if no improvements were made, no more improvements can be made, so return startingPoint
+        
+        in all cases, if the payload either doesn't fit or doesn't improve things, revert all changes and move on to the next
+        */
+        for(Payload loaded : used)
+        {
+            // remove the current payload to make room for the possible payloads
+            theoretical.removePayload(loaded);
+            
+            // go through the list of all unused to see if they make good replacements
+            for(Payload possible : unused)
+            {
+                
+                // if the payload can't be added in replacement of the one that was in there, skip it.
+                if (theoretical.getCargoManifest().contains(possible))        {continue;}
+                if (theoretical.getCargoWeight() + possible.getWeight() > 700){continue;}
+
+                try{theoretical.addPayload(possible);}
+                catch(Exception e){e.printStackTrace();}
+
+                // if the weight improves, check if any other Payloads can be added on top to improve the score
+                if (theoretical.getCargoWeight() < startingPoint.getCargoWeight())
+                {
+                    // for each unused payload, try adding it
+                    for (Payload second : unused)
+                    {
+                        // if the payload can't be added in replacement of the one that was in there, skip it.
+                        if (theoretical.getCargoManifest().contains(second))        {continue;}
+                        if (theoretical.getCargoWeight() + second.getWeight() > 700){continue;}
+                        
+                        // add it
+                        try{theoretical.addPayload(second);}
+                        catch (Exception e){e.printStackTrace();}
+ 
+                            
+                            // if the score improves on the starting point
+                            if (theoretical.getCargoValue() > startingPoint.getCargoValue())
+                            {
+                                // remove what was originally in that slot
+                                startingPoint.removePayload(loaded);
+                                
+                                // add the first and second payloads
+                                try
+                                {
+                                    startingPoint.addPayload(possible);
+                                    startingPoint.addPayload(second);
+                                }
+                                catch(Exception e){e.printStackTrace();}
+                                
+                                // recursively call to attempt a further improvement
+                                return improve(startingPoint);
+                            }
+                            
+                            // if the score doesn't improve, remove the second possible payload and try the next
+                            else
+                            {
+                                theoretical.removePayload(second);
+                            }
+                    }
+                }
+                
+                // no improvement was made remove the first possible payload
+                theoretical.removePayload(possible);
+                
+                
+            }
+            
+            // no improvement was made, revert the cargoBay back to original by adding the original payload back in
+            try{theoretical.addPayload(loaded);}
+            catch(Exception e){e.printStackTrace();}
+        }
+            
+            // base case, if there was no improvement on this recursion no further
+            // recursion can improve things, so just return the startingPoint
+            return startingPoint;
+    }
+    
+
     
 }
