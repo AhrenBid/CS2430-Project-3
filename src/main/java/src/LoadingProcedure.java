@@ -39,8 +39,8 @@ public class LoadingProcedure
                 Payload current = dupCatalogue.get(i);
              //checks if weight keeps total under 700 and updates bestRatio if needed
                 if (current.getWeight() + ratingBay.getCargoWeight() <= 700) {
-                    if (bestRating == null || current.getRatio() > bestRating.getRatio()) {
-                        bestRating = current;
+                    if (bestRating == null || current.getValue() > bestRating.getValue()) { // small copy-paste bug, you were using getRatio rather than getValue, 
+                        bestRating = current;                                               // and this meant that this method was doing exactly the same as the load by ratio method -- Ahren
                     }
                 }
             }

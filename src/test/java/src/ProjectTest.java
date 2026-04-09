@@ -221,14 +221,14 @@ public class ProjectTest {
         System.out.println("Load Brute Force\n");
         System.out.println(printManifest(manifest));
         
-        assertTrue(manifest.contains(solarFlares));
+        assertTrue(manifest.contains(cloudPatterns));
         assertTrue(manifest.contains(binaryStars));
         assertTrue(manifest.contains(relativity));
-        assertTrue(manifest.contains(cosmicRays));
-        assertTrue(manifest.contains(cloudPatterns));
-        assertTrue(manifest.contains(yeastFermentation));
         assertTrue(manifest.contains(seedViability));
-        
+        assertTrue(manifest.contains(miceTumors));
+        assertTrue(manifest.contains(microMeteorites));
+        assertTrue(manifest.contains(cosmicRays));
+        assertTrue(manifest.contains(yeastFermentation));
         
         assertTrue(loadBruteForce.getCargoWeight() <= 700);
     }
