@@ -133,7 +133,8 @@ public class LoadingProcedure
         
         return ratioBay;
     }
-    
+
+// @author Zac
 // Loads every possible combination of payloads and returns 
 // the top 3 combinations that are under the weight limit of 700
 public ArrayList<CargoBay> loadBruteForce() {
