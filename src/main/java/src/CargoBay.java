@@ -2,6 +2,14 @@ package src;
 
 import java.util.ArrayList;
 
+/**
+* Group 2
+* Zachary Butterfield, Andrew Clarkson, Ahren Bidlingmaier
+* CS2430-002
+* Project 3: Optimal selection
+* @author Ahren Bidlingmaier
+*/
+
 /// Cargo Bay of the rocket
 /// @author Ahren
 public class CargoBay implements Comparable<CargoBay>
