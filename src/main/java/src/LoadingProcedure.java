@@ -7,12 +7,13 @@ package src;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-
 /**
- *
- * @author abidling
- */
+* Group 2
+* Zachary Butterfield, Andrew Clarkson, Ahren Bidlingmaier
+* CS2430-002
+* Project 3: Optimal selection
+* @author Zachary Butterfield + Andrew Clark + Bidlingmaier
+*/
 public class LoadingProcedure 
 {
     
