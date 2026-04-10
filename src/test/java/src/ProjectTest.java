@@ -15,9 +15,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- *
- * @author abidling
- */
+* Group 2
+* Zachary Butterfield, Andrew Clarkson, Ahren Bidlingmaier
+* CS2430-002
+* Project 3: Optimal selection
+* @author Ahren Bidlingmaier
+*/
 public class ProjectTest {
     
     public ProjectTest(){}
