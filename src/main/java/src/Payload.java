@@ -4,6 +4,14 @@
  */
 package src;
 
+/**
+* Group 2
+* Zachary Butterfield, Andrew Clarkson, Ahren Bidlingmaier
+* CS2430-002
+* Project 3: Optimal selection
+* @author Ahren Bidlingmaier
+*/
+
 
 /// @author Ahren
 /// Payload class, holds all of the details of the payloads
