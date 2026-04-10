@@ -12,7 +12,7 @@ import java.util.Collections;
 * Zachary Butterfield, Andrew Clarkson, Ahren Bidlingmaier
 * CS2430-002
 * Project 3: Optimal selection
-* @author Zachary Butterfield + Andrew Clark + Bidlingmaier
+* @author Zachary Butterfield + Andrew Clark + Ahren Bidlingmaier
 */
 public class LoadingProcedure 
 {
